@@ -1,0 +1,830 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🌾 AgriPulse</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🌾</text></svg>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="header">
+        <button class="back-btn" id="backBtn" onclick="goBack()" style="display: none;">
+            <i class="fas fa-arrow-left"></i>
+        </button>
+        <div class="app-logo">
+            <span style="font-size: 1.5rem;">🌾</span>
+            <span>AgriPulse</span>
+        </div>
+        <div class="header-actions">
+            <button class="voice-btn" onclick="openProfile()" style="background: #9CAF88; margin-right: 0.5rem;">
+                <i class="fas fa-user"></i>
+            </button>
+            <select id="languageSelect" class="language-select" onchange="changeLanguage()">
+                <option value="en">English</option>
+                <option value="hi">हिंदी</option>
+                <option value="kn">ಕನ್ನಡ</option>
+                <option value="te">తెలుగు</option>
+                <option value="ta">தமிழ்</option>
+            </select>
+            <button class="voice-btn" onclick="toggleVoiceAssistant()">
+                <i class="fas fa-microphone"></i>
+            </button>
+        </div>
+    </header>
+
+    <main class="main-container">
+        <!-- Dashboard -->
+        <div id="dashboard" class="page active">
+            <section class="welcome-section">
+                <h1 class="welcome-title">Hello community</h1>
+                <p class="welcome-subtitle">Your AI-powered partner in modern agriculture.</p>
+            </section>
+
+            <section class="dashboard-section">
+                <div class="section-header">
+                    <i class="fas fa-th-large" style="color: #4ade80; font-size: 1.5rem;"></i>
+                    <h2 class="section-title">Quick Links</h2>
+                </div>
+
+                <div class="feature-grid">
+                    <div class="feature-card" onclick="openPage('smart-yield-optimizer')">
+                        <i class="fas fa-chart-line feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Smart Yield Optimizer</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('crop-doctor')">
+                        <i class="fas fa-stethoscope feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Crop Doctor</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('soil-suitability')">
+                        <i class="fas fa-seedling feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Soil Testing</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('market-prices')">
+                        <i class="fas fa-coins feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Market Prices</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('labor-marketplace')">
+                        <i class="fas fa-users feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Labor Marketplace</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('community')">
+                        <i class="fas fa-users feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Community</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('my-fields')">
+                        <i class="fas fa-map feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">My Fields</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('govt-schemes')">
+                        <i class="fas fa-landmark feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Govt. Schemes</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('guide')">
+                        <i class="fas fa-book feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">App Guide</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('ai-chatbot')">
+                        <i class="fas fa-robot feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">AI Chatbot</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('weather-forecast')" style="position: relative;">
+                        <i class="fas fa-sun feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">31°C<br>Weather Forecast</div>
+                    </div>
+                    <div class="feature-card" onclick="openPage('reminders')">
+                        <i class="fas fa-bell feature-icon" style="color: #000;"></i>
+                        <div class="feature-title">Reminders</div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Market Prices Page -->
+        <div id="market-prices" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Market Prices</h1>
+                <p class="page-subtitle">Real-time commodity prices from government data sources.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Today's Prices</h3>
+                        <button class="btn-secondary" onclick="loadPrices()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div id="pricesTable"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Weather Forecast Page -->
+        <div id="weather-forecast" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Weather Forecast</h1>
+                <p class="page-subtitle">7-day weather forecast for any location.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Location Search</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="locationInput">Enter City Name:</label>
+                        <input type="text" id="locationInput" class="form-input" placeholder="e.g., Mumbai, Delhi, Bangalore" value="Delhi">
+                    </div>
+                    <button class="btn-primary" onclick="searchAndLoadWeather()">
+                        <i class="fas fa-search"></i> Get Weather
+                    </button>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <span id="weatherLocationTitle">7-Day Forecast - Delhi</span>
+                        </h3>
+                        <button class="btn-secondary" onclick="loadWeatherForCurrentLocation()">
+                            <i class="fas fa-sync-alt"></i>
+                        </button>
+                    </div>
+                    <div id="weatherDisplay"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Smart Yield Optimizer Page -->
+        <div id="smart-yield-optimizer" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Smart Yield Optimizer</h1>
+                <p class="page-subtitle">Get personalized crop recommendations and complete growing plans.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Crop Planning Tool</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="cropSelect">Select Crop Type:</label>
+                        <select id="cropSelect" class="form-input">
+                            <option value="">Choose a crop...</option>
+                            <option value="rice">Rice</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="corn">Corn/Maize</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="sugarcane">Sugarcane</option>
+                            <option value="soybean">Soybean</option>
+                            <option value="potato">Potato</option>
+                            <option value="tomato">Tomato</option>
+                            <option value="onion">Onion</option>
+                            <option value="garlic">Garlic</option>
+                            <option value="cabbage">Cabbage</option>
+                            <option value="cauliflower">Cauliflower</option>
+                            <option value="carrot">Carrot</option>
+                            <option value="broccoli">Broccoli</option>
+                            <option value="spinach">Spinach</option>
+                            <option value="lettuce">Lettuce</option>
+                            <option value="cucumber">Cucumber</option>
+                            <option value="pumpkin">Pumpkin</option>
+                            <option value="watermelon">Watermelon</option>
+                            <option value="mango">Mango</option>
+                            <option value="banana">Banana</option>
+                            <option value="apple">Apple</option>
+                            <option value="orange">Orange</option>
+                            <option value="grape">Grape</option>
+                            <option value="pomegranate">Pomegranate</option>
+                            <option value="cashew">Cashew</option>
+                            <option value="coconut">Coconut</option>
+                            <option value="tea">Tea</option>
+                            <option value="coffee">Coffee</option>
+                            <option value="cardamom">Cardamom</option>
+                            <option value="pepper">Black Pepper</option>
+                            <option value="turmeric">Turmeric</option>
+                            <option value="ginger">Ginger</option>
+                            <option value="chili">Chili</option>
+                            <option value="coriander">Coriander</option>
+                            <option value="cumin">Cumin</option>
+                            <option value="fenugreek">Fenugreek</option>
+                            <option value="mustard">Mustard</option>
+                            <option value="sesame">Sesame</option>
+                            <option value="sunflower">Sunflower</option>
+                            <option value="groundnut">Groundnut</option>
+                            <option value="chickpea">Chickpea</option>
+                            <option value="lentil">Lentil</option>
+                            <option value="blackgram">Black Gram</option>
+                            <option value="greengram">Green Gram</option>
+                            <option value="pigeonpea">Pigeon Pea</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="acreageInput">Area (in acres):</label>
+                        <input type="number" id="acreageInput" class="form-input" placeholder="Enter area in acres" min="0.1" step="0.1">
+                    </div>
+                    <button class="btn-primary" onclick="generateCropPlan()">
+                        <i class="fas fa-seedling"></i> Generate Crop Plan
+                    </button>
+                </div>
+
+                <div id="cropPlanResults" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Fertilizer Recommendations</h3>
+                        </div>
+                        <div id="fertilizerRecommendations"></div>
+                    </div>
+
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Complete Growing Plan</h3>
+                        </div>
+                        <div id="growingPlan"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Crop Doctor Page -->
+        <div id="crop-doctor" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Crop Doctor</h1>
+                <p class="page-subtitle">AI-powered crop disease diagnosis and treatment.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Describe Your Crop Issue</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="cropIssueSelect">Crop Type:</label>
+                        <select id="cropIssueSelect" class="form-input">
+                            <option value="">Select crop...</option>
+                            <option value="rice">Rice</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="corn">Corn</option>
+                            <option value="tomato">Tomato</option>
+                            <option value="potato">Potato</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="soybean">Soybean</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="cropImage">Upload Crop Image (Required):</label>
+                        <input type="file" id="cropImage" class="form-input" accept="image/*" onchange="previewImage()" required>
+                        <div id="imagePreview" style="margin-top: 1rem; display: none;">
+                            <img id="previewImg" style="max-width: 100%; max-height: 200px; border-radius: 0.5rem;" />
+                        </div>
+                        <p style="color: #9CAF88; font-size: 0.9rem; margin-top: 0.5rem;">
+                            <i class="fas fa-info-circle"></i> Image upload is mandatory for accurate AI diagnosis
+                        </p>
+                    </div>
+                    <div class="form-group">
+                        <label for="issueDescription">Additional details (optional):</label>
+                        <textarea id="issueDescription" class="form-input" rows="3" placeholder="Any additional symptoms or details you want to mention..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="diagnoseCropIssue()">
+                        <i class="fas fa-search"></i> Diagnose Issue
+                    </button>
+                </div>
+
+                <div id="diagnosisResults" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Diagnosis & Treatment</h3>
+                        </div>
+                        <div id="diagnosisContent"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Soil Suitability Page -->
+        <div id="soil-suitability" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Soil Testing & Analysis</h1>
+                <p class="page-subtitle">Enter your soil test results for personalized recommendations.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Soil Test Results</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="soilType">Soil Type:</label>
+                        <select id="soilType" class="form-input">
+                            <option value="">Select soil type...</option>
+                            <option value="clay">Clay</option>
+                            <option value="sandy">Sandy</option>
+                            <option value="loam">Loam</option>
+                            <option value="silt">Silt</option>
+                            <option value="alluvial">Alluvial</option>
+                            <option value="red">Red Soil</option>
+                            <option value="black">Black Soil</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="soilPH">Soil pH Level:</label>
+                        <input type="number" id="soilPH" class="form-input" placeholder="Enter pH value (4.0-9.0)" step="0.1" min="4" max="9">
+                    </div>
+                    <div class="form-group">
+                        <label for="soilMoisture">Moisture Content (%):</label>
+                        <input type="number" id="soilMoisture" class="form-input" placeholder="Enter moisture percentage" step="0.1" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="nitrogenLevel">Nitrogen (N) Level (kg/hectare):</label>
+                        <input type="number" id="nitrogenLevel" class="form-input" placeholder="Enter nitrogen level" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="phosphorusLevel">Phosphorus (P) Level (kg/hectare):</label>
+                        <input type="number" id="phosphorusLevel" class="form-input" placeholder="Enter phosphorus level" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="potassiumLevel">Potassium (K) Level (kg/hectare):</label>
+                        <input type="number" id="potassiumLevel" class="form-input" placeholder="Enter potassium level" step="1" min="0">
+                    </div>
+                    <button class="btn-primary" onclick="analyzeSoilDetailed()">
+                        <i class="fas fa-flask"></i> Get AI Recommendations
+                    </button>
+                </div>
+                <div id="soilResults" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">AI Soil Analysis & Recommendations</h3>
+                        </div>
+                        <div id="soilAnalysis"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Labor Marketplace Page -->
+        <div id="labor-marketplace" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Labor Marketplace</h1>
+                <p class="page-subtitle">Connect with agricultural workers and services.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Find Workers</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="laborType">Work Type:</label>
+                        <select id="laborType" class="form-input">
+                            <option value="">Select work type...</option>
+                            <option value="plowing">Plowing</option>
+                            <option value="sowing">Sowing</option>
+                            <option value="weeding">Weeding</option>
+                            <option value="harvesting">Harvesting</option>
+                            <option value="irrigation">Irrigation</option>
+                            <option value="fertilizing">Fertilizing</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="laborArea">Your Area:</label>
+                        <input type="text" id="laborArea" class="form-input" placeholder="Enter your area/village">
+                    </div>
+                    <button class="btn-primary" onclick="findLabor()">
+                        <i class="fas fa-search"></i> Find Workers
+                    </button>
+                </div>
+
+                <div id="laborResults" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Available Workers</h3>
+                        </div>
+                        <div id="laborList"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="community" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Community</h1>
+                <p class="page-subtitle">Connect with other farmers and share experiences.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Discussion Categories</h3>
+                    </div>
+                    <div class="feature-grid" style="grid-template-columns: repeat(3, 1fr); gap: 1rem;">
+                        <div class="feature-card" onclick="filterCommunityPosts('crops')">
+                            <i class="fas fa-seedling feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Crops</div>
+                        </div>
+                        <div class="feature-card" onclick="filterCommunityPosts('labor')">
+                            <i class="fas fa-users feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Labor</div>
+                        </div>
+                        <div class="feature-card" onclick="filterCommunityPosts('equipment')">
+                            <i class="fas fa-tools feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Equipment</div>
+                        </div>
+                        <div class="feature-card" onclick="filterCommunityPosts('feedback')">
+                            <i class="fas fa-comments feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Feedback</div>
+                        </div>
+                        <div class="feature-card" onclick="filterCommunityPosts('qa')">
+                            <i class="fas fa-question-circle feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Q&A</div>
+                        </div>
+                        <div class="feature-card" onclick="filterCommunityPosts('all')">
+                            <i class="fas fa-globe feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">All Posts</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Start a Discussion</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="postCategory">Category:</label>
+                        <select id="postCategory" class="form-input">
+                            <option value="crops">Crops</option>
+                            <option value="labor">Labor</option>
+                            <option value="equipment">Equipment</option>
+                            <option value="feedback">Feedback</option>
+                            <option value="qa">Q&A</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="discussionTopic">Topic:</label>
+                        <input type="text" id="discussionTopic" class="form-input" placeholder="Enter discussion topic">
+                    </div>
+                    <div class="form-group">
+                        <label for="discussionContent">Your Message:</label>
+                        <textarea id="discussionContent" class="form-input" rows="3" placeholder="Share your question or experience..."></textarea>
+                    </div>
+                    <button class="btn-primary" onclick="addCommunityPost()">
+                        <i class="fas fa-plus"></i> Start Discussion
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title" id="communityPostsTitle">Recent Discussions</h3>
+                    </div>
+                    <div id="communityPosts">
+                        <div class="result-item" data-category="crops">
+                            <div class="result-content">
+                                <p><strong>Raj Kumar:</strong> Best time for wheat sowing in North India?</p>
+                                <p style="color: #94a3b8; font-size: 0.9rem;">Crops • 2 hours ago • 5 replies</p>
+                            </div>
+                        </div>
+                        <div class="result-item" data-category="crops">
+                            <div class="result-content">
+                                <p><strong>Priya Sharma:</strong> Organic pest control methods for tomatoes</p>
+                                <p style="color: #94a3b8; font-size: 0.9rem;">Crops • 5 hours ago • 8 replies</p>
+                            </div>
+                        </div>
+                        <div class="result-item" data-category="equipment">
+                            <div class="result-content">
+                                <p><strong>Mohan Lal:</strong> Which tractor is best for 5-acre farm?</p>
+                                <p style="color: #94a3b8; font-size: 0.9rem;">Equipment • 1 day ago • 12 replies</p>
+                            </div>
+                        </div>
+                        <div class="result-item" data-category="labor">
+                            <div class="result-content">
+                                <p><strong>Sunita Devi:</strong> Need skilled workers for harvesting season</p>
+                                <p style="color: #94a3b8; font-size: 0.9rem;">Labor • 2 days ago • 3 replies</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="my-fields" class="page">
+            <div class="page-header">
+                <h1 class="page-title">My Fields</h1>
+                <p class="page-subtitle">Manage and monitor your agricultural fields.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add New Field</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldName">Field Name:</label>
+                        <input type="text" id="fieldName" class="form-input" placeholder="e.g., North Field, Field A">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldSize">Size (acres):</label>
+                        <input type="number" id="fieldSize" class="form-input" placeholder="Enter field size" step="0.1">
+                    </div>
+                    <div class="form-group">
+                        <label for="currentCrop">Current Crop:</label>
+                        <select id="currentCrop" class="form-input">
+                            <option value="">Select crop...</option>
+                            <option value="rice">Rice</option>
+                            <option value="wheat">Wheat</option>
+                            <option value="corn">Corn</option>
+                            <option value="cotton">Cotton</option>
+                            <option value="tomato">Tomato</option>
+                            <option value="potato">Potato</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldPH">Soil pH Level:</label>
+                        <input type="number" id="fieldPH" class="form-input" placeholder="Enter pH (4.0-9.0)" step="0.1" min="4" max="9">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldMoisture">Moisture Content (%):</label>
+                        <input type="number" id="fieldMoisture" class="form-input" placeholder="Enter moisture %" step="0.1" min="0" max="100">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldNitrogen">Nitrogen (N) Level (kg/hectare):</label>
+                        <input type="number" id="fieldNitrogen" class="form-input" placeholder="Enter nitrogen level" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldPhosphorus">Phosphorus (P) Level (kg/hectare):</label>
+                        <input type="number" id="fieldPhosphorus" class="form-input" placeholder="Enter phosphorus level" step="1" min="0">
+                    </div>
+                    <div class="form-group">
+                        <label for="fieldPotassium">Potassium (K) Level (kg/hectare):</label>
+                        <input type="number" id="fieldPotassium" class="form-input" placeholder="Enter potassium level" step="1" min="0">
+                    </div>
+                    <button class="btn-primary" onclick="addField()">
+                        <i class="fas fa-plus"></i> Add Field
+                    </button>
+                    <button class="btn-secondary" onclick="getFieldAdvice()" style="margin-top: 0.5rem; width: 100%;">
+                        <i class="fas fa-brain"></i> Get AI Field Advice
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">My Fields</h3>
+                    </div>
+                    <div id="fieldsDisplay">
+                        <p style="color: #94a3b8;">No fields added yet. Add your first field above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="govt-schemes" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Government Schemes</h1>
+                <p class="page-subtitle">Explore agricultural schemes and subsidies with direct application links.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Popular Schemes</h3>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>PM Kisan Samman Nidhi:</strong> ₹6,000 annual income support to farmer families</p>
+                            <p style="color: #4ade80;">Eligible • <a href="https://pmkisan.gov.in/" target="_blank" class="scheme-link">Apply Online</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>Pradhan Mantri Fasal Bima Yojana:</strong> Crop insurance for natural calamities</p>
+                            <p style="color: #4ade80;">Eligible • <a href="https://pmfby.gov.in/" target="_blank" class="scheme-link">Apply Online</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>Soil Health Card Scheme:</strong> Free soil testing and health cards</p>
+                            <p style="color: #4ade80;">Available • <a href="https://soilhealth.dac.gov.in/" target="_blank" class="scheme-link">Apply Online</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>Micro Irrigation Fund:</strong> Subsidy for drip and sprinkler irrigation</p>
+                            <p style="color: #60a5fa;"><a href="https://pmksy.gov.in/" target="_blank" class="scheme-link">Check Eligibility</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>National Agriculture Market (eNAM):</strong> Online trading platform for agricultural commodities</p>
+                            <p style="color: #4ade80;">Available • <a href="https://enam.gov.in/" target="_blank" class="scheme-link">Register Online</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>Kisan Credit Card:</strong> Credit facility for agricultural needs</p>
+                            <p style="color: #4ade80;">Available • <a href="https://www.india.gov.in/spotlight/kisan-credit-card-kcc-scheme" target="_blank" class="scheme-link">Apply Through Bank</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>National Horticulture Mission:</strong> Support for horticulture development</p>
+                            <p style="color: #60a5fa;"><a href="https://nhm.nic.in/" target="_blank" class="scheme-link">Learn More</a></p>
+                        </div>
+                    </div>
+                    <div class="result-item">
+                        <div class="result-content">
+                            <p><strong>Rashtriya Krishi Vikas Yojana:</strong> Agricultural development schemes</p>
+                            <p style="color: #60a5fa;"><a href="https://rkvy.nic.in/" target="_blank" class="scheme-link">View Details</a></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Application Status</h3>
+                    </div>
+                    <div class="result-content">
+                        <p style="color: #94a3b8;">Track your applications through the respective scheme websites above.</p>
+                        <p><strong>Tip:</strong> Keep your Aadhaar and bank details ready for quick applications.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="guide" class="page">
+            <div class="page-header">
+                <h1 class="page-title">App Guide</h1>
+                <p class="page-subtitle">Learn how to use AgriPulse effectively.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">How to Use AgriPulse</h3>
+                    </div>
+                    <div class="result-content">
+                        <h4>🌾 Smart Yield Optimizer</h4>
+                        <p>Select your crop type and enter farm area to get personalized fertilizer recommendations and complete growing plans powered by AI.</p>
+                        
+                        <h4>🩺 Crop Doctor</h4>
+                        <p>Upload crop images or describe symptoms to get AI-powered disease diagnosis and treatment recommendations.</p>
+                        
+                        <h4>🧪 Soil Testing</h4>
+                        <p>Enter your soil test results (pH, moisture, NPK levels) to receive AI recommendations for soil improvement and crop selection.</p>
+                        
+                        <h4>💰 Market Prices</h4>
+                        <p>View real-time agricultural commodity prices from government data sources across Indian markets.</p>
+                        
+                        <h4>🌤️ Weather Forecast</h4>
+                        <p>Get 7-day weather forecasts for any location to plan your farming activities better.</p>
+                        
+                        <h4>👥 Community</h4>
+                        <p>Connect with other farmers, share experiences, ask questions, and get advice on crops, labor, equipment, and more.</p>
+                        
+                        <h4>🏛️ Government Schemes</h4>
+                        <p>Explore agricultural schemes with direct application links to government portals.</p>
+                        
+                        <h4>🤖 AI Chatbot</h4>
+                        <p>Ask any question - agricultural or general - and get intelligent responses from our AI assistant.</p>
+                        
+                        <h4>🗣️ Voice Assistant</h4>
+                        <p>Use voice commands to interact with the app. Click the microphone icon in the header to start.</p>
+                        
+                        <h4>🌐 Language Support</h4>
+                        <p>Switch between English, Hindi, Kannada, Telugu, and Tamil using the language selector in the header.</p>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Choose a Farming Topic</h3>
+                    </div>
+                    <div class="feature-grid" style="grid-template-columns: repeat(2, 1fr);">
+                        <div class="feature-card" onclick="showGuide('basics')">
+                            <i class="fas fa-seedling feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Farming Basics</div>
+                        </div>
+                        <div class="feature-card" onclick="showGuide('irrigation')">
+                            <i class="fas fa-tint feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Irrigation</div>
+                        </div>
+                        <div class="feature-card" onclick="showGuide('pest')">
+                            <i class="fas fa-bug feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Pest Control</div>
+                        </div>
+                        <div class="feature-card" onclick="showGuide('harvest')">
+                            <i class="fas fa-cut feature-icon" style="color: #000;"></i>
+                            <div class="feature-title">Harvesting</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="guideContent" style="display: none;">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title" id="guideTitle">Guide Content</h3>
+                        </div>
+                        <div class="result-content" id="guideText"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="reminders" class="page">
+            <div class="page-header">
+                <h1 class="page-title">Reminders</h1>
+                <p class="page-subtitle">Set and manage farming activity reminders.</p>
+            </div>
+            <div class="page-content">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Add New Reminder</h3>
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderActivity">Activity:</label>
+                        <select id="reminderActivity" class="form-input">
+                            <option value="">Select activity...</option>
+                            <option value="watering">Watering</option>
+                            <option value="fertilizing">Fertilizing</option>
+                            <option value="pesticide">Pesticide Application</option>
+                            <option value="weeding">Weeding</option>
+                            <option value="harvesting">Harvesting</option>
+                            <option value="sowing">Sowing</option>
+                            <option value="soil-test">Soil Testing</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderDate">Date:</label>
+                        <input type="date" id="reminderDate" class="form-input">
+                    </div>
+                    <div class="form-group">
+                        <label for="reminderNotes">Notes (optional):</label>
+                        <input type="text" id="reminderNotes" class="form-input" placeholder="Additional notes...">
+                    </div>
+                    <button class="btn-primary" onclick="addReminder()">
+                        <i class="fas fa-plus"></i> Add Reminder
+                    </button>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">Upcoming Reminders</h3>
+                    </div>
+                    <div id="remindersDisplay">
+                        <p style="color: #94a3b8;">No reminders set. Add your first reminder above.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Chatbot Page -->
+        <div id="ai-chatbot" class="page">
+            <div class="page-header">
+                <h1 class="page-title">AI Assistant</h1>
+                <p class="page-subtitle">Ask me anything - agriculture, general knowledge, or any topic!</p>
+            </div>
+            <div class="page-content">
+                <div class="chat-container">
+                    <div class="chat-display" id="chatDisplay">
+                        <div class="chat-message bot-message">
+                            Hello! I'm your AI assistant. I can help with farming questions, provide general knowledge, answer academic queries, assist with daily tasks, and much more. What would you like to know?
+                        </div>
+                    </div>
+                    <div class="chat-input-container">
+                        <input type="text" class="chat-input" id="chatInput" placeholder="Ask me anything...">
+                        <button class="chat-send-btn" onclick="sendMessage()">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content">
+            <button class="close-modal" onclick="closeProfile()">&times;</button>
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #4ade80;">My Profile</h2>
+            
+            <div class="profile-avatar" id="profileAvatar">
+                <i class="fas fa-user"></i>
+            </div>
+            
+            <div class="form-group">
+                <label for="profileName">Full Name:</label>
+                <input type="text" id="profileName" class="form-input" placeholder="Enter your full name">
+            </div>
+            
+            <div class="form-group">
+                <label for="profilePhone">Phone Number:</label>
+                <input type="tel" id="profilePhone" class="form-input" placeholder="Enter your phone number">
+            </div>
+            
+            <div class="form-group">
+                <label for="profileLocation">Location:</label>
+                <input type="text" id="profileLocation" class="form-input" placeholder="Enter your city/village">
+            </div>
+            
+            <div class="form-group">
+                <label for="profileFarmSize">Farm Size (acres):</label>
+                <input type="number" id="profileFarmSize" class="form-input" placeholder="Enter total farm size" step="0.1">
+            </div>
+            
+            <button class="btn-primary" onclick="saveProfile()">
+                <i class="fas fa-save"></i> Save Profile
+            </button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
