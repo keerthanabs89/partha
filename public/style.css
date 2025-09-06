@@ -1,0 +1,680 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+    color: #ffffff;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Header */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background: #1a1f2e;
+    border-bottom: 1px solid #334155;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.app-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #4ade80;
+}
+
+.header-actions {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+}
+
+.back-btn {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 50%;
+    transition: background 0.3s;
+}
+
+.back-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Container */
+.main-container {
+    min-height: calc(100vh - 80px);
+    padding: 1.5rem;
+    max-width: 480px;
+    margin: 0 auto;
+    position: relative;
+}
+
+/* Dashboard */
+.welcome-section {
+    margin-bottom: 2rem;
+}
+
+.welcome-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #4ade80, #22d3ee);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.welcome-subtitle {
+    color: #94a3b8;
+    font-size: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.dashboard-section {
+    background: #242938;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid #334155;
+}
+
+.section-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1.5rem;
+}
+
+.section-title {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.feature-card {
+    background: #1a1f2e;
+    border-radius: 1rem;
+    padding: 1rem;
+    text-align: center;
+    cursor: pointer;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.feature-card:hover {
+    transform: translateY(-5px);
+    border-color: #4ade80;
+    box-shadow: 0 10px 25px rgba(74, 222, 128, 0.2);
+}
+
+.feature-card.active {
+    background: linear-gradient(135deg, #fbbf24, #f59e0b);
+    color: #000;
+}
+
+.feature-icon {
+    font-size: 2rem;
+    margin-bottom: 0.75rem;
+    display: block;
+}
+
+.feature-title {
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 1.3;
+}
+
+/* Full Screen Pages */
+.page {
+    display: none;
+    position: absolute;
+    top: -1.5rem;
+    left: -1.5rem;
+    right: -1.5rem;
+    min-height: calc(100vh - 80px);
+    background: linear-gradient(135deg, #0a0e1a 0%, #1a1f2e 100%);
+    z-index: 10;
+    animation: slideInRight 0.3s ease;
+}
+
+.page.active {
+    display: block;
+}
+
+@keyframes slideInRight {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+.page-header {
+    padding: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.page-title {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    color: #94a3b8;
+    font-size: 1rem;
+}
+
+.page-content {
+    padding: 0 1.5rem 2rem;
+}
+
+/* Form Elements */
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+.form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.form-input, .form-select, .form-textarea {
+    width: 100%;
+    padding: 1rem;
+    background: #1a1f2e;
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.form-textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+    outline: none;
+    border-color: #4ade80;
+    box-shadow: 0 0 0 3px rgba(74, 222, 128, 0.1);
+}
+
+/* Buttons */
+.btn {
+    background: linear-gradient(135deg, #4ade80, #22d3ee);
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    font-size: 1rem;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(74, 222, 128, 0.3);
+}
+
+.btn-secondary {
+    background: #1a1f2e;
+    color: #ffffff;
+    border: 1px solid #334155;
+    width: auto;
+    padding: 0.5rem;
+}
+
+.btn-upload {
+    background: #4ade80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 1rem 0;
+}
+
+/* Cards */
+.card {
+    background: #242938;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border: 1px solid #334155;
+    margin-bottom: 1rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.card-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4ade80;
+}
+
+/* Tables */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #242938;
+    border-radius: 0.75rem;
+    overflow: hidden;
+    border: 1px solid #334155;
+}
+
+.table th,
+.table td {
+    padding: 1rem;
+    text-align: left;
+    border-bottom: 1px solid #334155;
+}
+
+.table th {
+    background: #1a1f2e;
+    font-weight: 600;
+    color: #4ade80;
+}
+
+/* Loading Spinner */
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid rgba(74, 222, 128, 0.3);
+    border-radius: 50%;
+    border-top-color: #4ade80;
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
+}
+
+/* Forms */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    color: #4ade80;
+    font-weight: 500;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    background: #1a1f2e;
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4ade80;
+}
+
+/* Result Items */
+.result-item {
+    background: #1a1f2e;
+    border: 1px solid #334155;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.result-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4ade80;
+    margin-bottom: 0.75rem;
+}
+
+.result-content {
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+.quantity-highlight {
+    color: #22d3ee;
+    font-weight: 600;
+}
+
+.price-highlight {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.status-error {
+    color: #ef4444;
+}
+
+/* Button variants */
+.btn-sm {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.875rem;
+    margin-left: 0.5rem;
+}
+
+.btn-danger {
+    background: #ef4444;
+    color: #ffffff;
+    border: none;
+}
+
+.form-input {
+    width: 100%;
+    padding: 0.75rem;
+    background: #1a1f2e;
+    border: 1px solid #334155;
+    border-radius: 0.5rem;
+    color: #ffffff;
+    font-size: 1rem;
+}
+
+.form-input:focus {
+    outline: none;
+    border-color: #4ade80;
+    box-shadow: 0 0 0 2px rgba(74, 222, 128, 0.2);
+}
+
+.form-input::placeholder {
+    color: #94a3b8;
+}
+
+select.form-input {
+    cursor: pointer;
+}
+
+textarea.form-input {
+    resize: vertical;
+    min-height: 100px;
+}
+
+/* Results */
+.result-item {
+    padding: 1rem;
+    background: #1a1f2e;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    border: 1px solid #334155;
+}
+
+.result-title {
+    color: #4ade80;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.result-content {
+    color: #e2e8f0;
+    line-height: 1.6;
+}
+
+.price-highlight {
+    color: #fbbf24;
+    font-weight: 600;
+}
+
+.quantity-highlight {
+    color: #60a5fa;
+    font-weight: 600;
+}
+
+/* Chat */
+.chat-container {
+    height: 400px;
+    background: #242938;
+    border-radius: 0.75rem;
+    border: 1px solid #334155;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.chat-display {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.chat-message {
+    padding: 0.75rem 1rem;
+    border-radius: 1rem;
+    max-width: 85%;
+}
+
+.user-message {
+    background: #4ade80;
+    color: #000;
+    align-self: flex-end;
+}
+
+.bot-message {
+    background: #1a1f2e;
+    color: #ffffff;
+    align-self: flex-start;
+    border: 1px solid #334155;
+}
+
+.chat-input-container {
+    display: flex;
+    padding: 1rem;
+    background: #1a1f2e;
+    border-top: 1px solid #334155;
+    gap: 0.5rem;
+}
+
+.chat-input {
+    flex: 1;
+    padding: 0.75rem;
+    background: #242938;
+    border: 1px solid #334155;
+    border-radius: 1.5rem;
+    color: #ffffff;
+}
+
+.chat-send-btn {
+    background: #4ade80;
+    color: white;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Status Messages */
+.status-success {
+    background: rgba(34, 197, 94, 0.1);
+    border-color: #22c55e;
+    color: #22c55e;
+}
+
+.status-warning {
+    background: rgba(245, 158, 11, 0.1);
+    border-color: #f59e0b;
+    color: #f59e0b;
+}
+
+.status-error {
+    background: rgba(239, 68, 68, 0.1);
+    border-color: #ef4444;
+    color: #ef4444;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    margin: 1rem 0;
+    border-left: 4px solid;
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+    .feature-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .main-container {
+        padding: 1rem;
+    }
+}
+
+/* Sage Green Icons */
+.feature-icon {
+    color: #9CAF88 !important;
+}
+
+.icon-weather { color: #9CAF88; }
+.icon-optimizer { color: #9CAF88; }
+.icon-prices { color: #9CAF88; }
+.icon-doctor { color: #9CAF88; }
+.icon-schemes { color: #9CAF88; }
+.icon-fields { color: #9CAF88; }
+.icon-forecast { color: #9CAF88; }
+.icon-community { color: #9CAF88; }
+.icon-reminders { color: #9CAF88; }
+.icon-calendar { color: #9CAF88; }
+.icon-chatbot { color: #9CAF88; }
+.icon-guide { color: #9CAF88; }
+.icon-suitability { color: #9CAF88; }
+.icon-labor { color: #9CAF88; }
+
+/* Profile Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.modal-content {
+    background-color: #242938;
+    margin: 15% auto;
+    padding: 2rem;
+    border: 1px solid #334155;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 500px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: #4ade80;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: white;
+    margin: 0 auto 1rem;
+}
+
+.language-select {
+    padding: 0.25rem 0.5rem;
+    border: 1px solid #475569;
+    border-radius: 0.375rem;
+    background: #1e293b;
+    color: white;
+    font-size: 0.875rem;
+    margin-right: 0.5rem;
+}
+
+.voice-btn {
+    background: #4ade80;
+    border: none;
+    color: white;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.voice-btn:hover {
+    background: #22c55e;
+}
+
+.voice-btn.active {
+    background: #ef4444;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.5; }
+}
+
+.scheme-link {
+    color: #4ade80;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.scheme-link:hover {
+    color: #22c55e;
+    text-decoration: underline;
+}
+
+.quantity-highlight {
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.price-highlight {
+    color: #fbbf24;
+    font-weight: 600;
+}
